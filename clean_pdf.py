@@ -60,3 +60,8 @@ if __name__ == '__main__':
     result = extract_link_labes(doc[0])
     for like_label, link in result:
         print(f"{like_label} , url = {link}")
+
+    print("Header and Footer Content")
+    result = extract_footer_headers(doc[0])
+    for h_f_content in result:
+        print(h_f_content)
