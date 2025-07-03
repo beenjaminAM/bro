@@ -21,3 +21,13 @@ def extract_link_labes(page, label_texts_and_urls = set()):
                 label_texts_and_urls.add((link_text, uri))
     
     return label_texts_and_urls
+
+if __name__ == '__main__':
+
+    name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
+    
+    doc = fitz.open(name)
+    
+    result = extract_link_labes(doc[0])
+    for like_label, link in result:
+        print(f"{like_label} , url = {link}")
