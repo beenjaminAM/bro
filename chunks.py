@@ -25,3 +25,11 @@ def chunk_text(text, chunk_size=200, overlap_size=10):
             break
     
     return chunks
+
+
+if __name__ == "name":
+    # Test the function
+    input_text = "there is no comprehensive review for a holistic understanding of how NLP is being adopted by governments. In this regard, we present a systematic literature review on NLP applications in governments by following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) protocol. there is no comprehensive review for a holistic understanding of how NLP is being adopted by governments. In this regard, we present a systematic literature review on NLP applications in governments by following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) protocol. there is no comprehensive review for a holistic understanding of how NLP is being adopted by governments. In this regard, we present a systematic literature review on NLP applications in governments by following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) protocol. there is no comprehensive review for a holistic understanding of how NLP is being adopted by governments. In this regard, we present a systematic literature review on NLP applications in governments by following the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) protocol. "
+    chunks = chunk_text(input_text)
+    for chunk in chunks:
+        print(f"'{chunk}'\n")
