@@ -4,9 +4,11 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
 
         # Decide the page range based on the direction
         if direction == 'forward':
-            page_range = range(min_pages - 1, doc.page_count)  # From start to last
+            # Iterate pages from (min_pages - 1) to the last page (inclusive)
+            page_range = range(min_pages - 1, doc.page_count)
         else:
-            page_range = range(doc.page_count - 1, min_pages - 2, -1)  # From last to start
+            # Iterate pages in reverse from the last page to (min_pages - 1) (inclusive)
+            page_range = range(doc.page_count - 1, min_pages - 2, -1)
 
         for page_num in page_range:
             page = doc.load_page(page_num)
