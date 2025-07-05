@@ -19,12 +19,13 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
             # print("val ", doc.page_count)
             # print(text)
             if debug and page_num == min_pages - 1:
-                print('Text Context at the page: {min_pages}:', text[:200])
+                print(f'Text Context at the page: {min_pages}:', text[:200])
+            print(f"{page_num}: {find_limiter.lower() in text.lower()}")
             if find_limiter.lower() in text.lower():
                 found_index_page = page_num
                 break
 
-        if found_index_page and found_index_page >= min_pages - 1:
+        if found_index_page is not None and found_index_page >= min_pages - 1:
             return found_index_page# return 0-based index
         else:
             return None
@@ -36,5 +37,11 @@ if __name__ == '__main__':
     find_limiter = "References"
     min_pages = 9
     limiter_page_index = handle(doc, find_limiter, min_pages, debug=True)
+
+    print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
+
+    find_limiter = "introduction"
+    min_pages = 1
+    limiter_page_index = handle(doc, find_limiter, min_pages, direction='forward', debug=True)
 
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
