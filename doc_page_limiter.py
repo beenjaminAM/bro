@@ -20,7 +20,6 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
             # print(text)
             if debug and page_num == min_pages - 1:
                 print(f'Text Context at the page: {min_pages}:', text[:200])
-            print(f"{page_num}: {find_limiter.lower() in text.lower()}")
             if find_limiter.lower() in text.lower():
                 found_index_page = page_num
                 break
@@ -32,16 +31,24 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
         
 if __name__ == '__main__':
     name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
-    
     doc = fitz.open(name)
+
+    # --- Test 1: Search for "References" from page 9 backward ---
     find_limiter = "References"
     min_pages = 9
-    limiter_page_index = handle(doc, find_limiter, min_pages, debug=True)
+    direction = 'backward'
+    debug = True
 
+    print(f"\nRunning test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
+    limiter_page_index = handle(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
+    # --- Test 2: Search for "introduction" from page 1 forward ---
     find_limiter = "introduction"
     min_pages = 1
-    limiter_page_index = handle(doc, find_limiter, min_pages, direction='forward', debug=True)
+    direction = 'forward'
+    debug = True
 
+    print(f"\nRunning test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
+    limiter_page_index = handle(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
