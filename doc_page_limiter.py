@@ -1,4 +1,6 @@
-def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
+import fitz
+
+def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
 
         found_index_page = None
 
@@ -13,10 +15,10 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
         for page_num in page_range:
             page = doc.load_page(page_num)
             text = page.get_text()
-            # Debbug purpss
+            # Debug purpss
             # print("val ", doc.page_count)
             # print(text)
-            if debbug and page_num == min_pages - 1:
+            if debug and page_num == min_pages - 1:
                 print('Text Context at the page: {min_pages}:', text[:200])
             if find_limiter.lower() in text.lower():
                 found_index_page = page_num
@@ -26,3 +28,13 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
             return found_index_page# return 0-based index
         else:
             return None
+        
+if __name__ == '__main__':
+    name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
+    
+    doc = fitz.open(name)
+    find_limiter = "References"
+    min_pages = 9
+    limiter_page_index = handle(doc, find_limiter, min_pages, debug=True)
+
+    print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
