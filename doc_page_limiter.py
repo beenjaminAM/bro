@@ -1,12 +1,12 @@
 def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
 
-        found_page = None
+        found_index_page = None
 
         # Decide the page range based on the direction
         if direction == 'forward':
-            page_range = range(doc.page_count)  # From first to last
+            page_range = range(min_pages - 1, doc.page_count)  # From start to last
         else:
-            page_range = range(doc.page_count - 1, -1, -1)  # From last to first
+            page_range = range(doc.page_count - 1, min_pages - 2, -1)  # From last to start
 
         for page_num in page_range:
             page = doc.load_page(page_num)
@@ -20,7 +20,7 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
                 found_index_page = page_num
                 break
 
-        if found_page and found_page >= min_pages:
+        if found_index_page and found_index_page >= min_pages - 1:
             return found_index_page# return 0-based index
         else:
             return None
