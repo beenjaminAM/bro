@@ -15,8 +15,7 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debbug = False):
             # print("val ", doc.page_count)
             # print(text)
             if debbug and page_num == min_pages - 1:
-                print('Text Context at the page: ', min_pages)
-                print(text[:200])
+                print('Text Context at the page: {min_pages}:', text[:200])
             if find_limiter.lower() in text.lower():
                 found_page = page_num + 1  # human-readable page number
                 break
