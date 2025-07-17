@@ -50,6 +50,8 @@ def find_limit_valid_pages(doc, find_limiter='\nreferences', min_pages = 10):
                 limiter = 'Appendix A'
                 result = result_app
     else:
+        # Custom cleaning using a word delimiter such as 5. References, 10. Literatur, or Appendix 1
+        # The delimiter should appear on or after the page number specified by min_pages (min_pages, min_pages + 1, min_pages + 2)
         result = handle(doc, find_limiter, min_pages, 'forward', True)
         if result:
             limiter = find_limiter.replace('\n', '').strip()
