@@ -21,7 +21,7 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
             if debug and page_num == min_pages - 1:
                 print(f'Text Context at the page: {min_pages}:', text[:200])
             if find_limiter.lower() in text.lower():
-                found_index_page = page_num
+                matched_page_index = page_num
                 break
 
         if found_index_page is not None and found_index_page >= min_pages - 1:
