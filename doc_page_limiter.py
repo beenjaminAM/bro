@@ -36,19 +36,14 @@ def find_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
     if find_limiter == '\nreferences':
         result_ref = handle(doc, find_limiter, min_pages)
         result_app = handle(doc, 'Appendix A', min_pages)
-        if result_ref:
-
-            if result_app:
-                result = min(result_ref, result_app)
-                if result == result_app:
-                    limiter = 'Appendix A'
-                else:
-                    limiter = 'references'
-
-        else:
-            if result_app:
-                limiter = 'Appendix A'
-                result = result_app
+        
+        if result_ref and result_app:
+            result = min(result_ref, result_app)
+            limiter = 'Appendix A' if result == result_app else 'references'
+        elif result_app:
+            result, limiter = result_app, 'Appendix A'
+        elif result_ref:
+            result, limiter = result_ref, 'references'
     else:
         # Custom cleaning using a word delimiter such as 5. References, 10. Literatur, or Appendix 1
         # The delimiter should appear on or after the page number specified by min_pages (min_pages, min_pages + 1, min_pages + 2)
