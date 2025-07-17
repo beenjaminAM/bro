@@ -29,7 +29,7 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
         else:
             return None
         
-def find_limit_valid_pages(doc, find_limiter='\nreferences', min_pages = 10):
+def find_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
 
     limiter = None
     result = None
