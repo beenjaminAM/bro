@@ -2,7 +2,7 @@ import fitz
 
 def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
 
-        found_index_page = None
+        matched_page_index = None
 
         # Decide the page range based on the direction
         if direction == 'forward':
