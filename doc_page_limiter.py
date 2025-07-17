@@ -29,6 +29,32 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
         else:
             return None
         
+def find_limit_valid_pages(doc, find_limiter='\nreferences', min_pages = 10):
+
+    limiter = None
+    result = None
+    if find_limiter == '\nreferences':
+        result_ref = handle(doc, find_limiter, min_pages)
+        result_app = handle(doc, 'Appendix A', min_pages)
+        if result_ref:
+
+            if result_app:
+                result = min(result_ref, result_app)
+                if result == result_app:
+                    limiter = 'Appendix A'
+                else:
+                    limiter = 'references'
+
+        else:
+            if result_app:
+                limiter = 'Appendix A'
+                result = result_app
+    else:
+        result = handle(doc, find_limiter, min_pages, 'forward', True)
+        if result:
+            limiter = find_limiter.replace('\n', '').strip()
+    return result, limiter
+        
 if __name__ == '__main__':
     name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
     doc = fitz.open(name)
