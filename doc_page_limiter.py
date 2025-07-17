@@ -24,8 +24,8 @@ def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
                 matched_page_index = page_num
                 break
 
-        if found_index_page is not None and found_index_page >= min_pages - 1:
-            return found_index_page# return 0-based index
+        if matched_page_index is not None and matched_page_index >= min_pages - 1:
+            return matched_page_index# return 0-based index
         else:
             return None
         
