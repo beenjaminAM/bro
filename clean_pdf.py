@@ -54,7 +54,9 @@ def extract_footer_headers(page, header_footer_texts=set()):
 def extract_cleaned_text_until_index_page(
     pdf_path: str,
     filename: str,
-    logs_df: pl.DataFrame
+    logs_df: pl.DataFrame,
+    find_limiter: str | None = None,
+    min_pages: int | None = None,
 ) -> tuple[str | None, pl.DataFrame]:
     """
     Extracts cleaned text from a PDF up to a specific index page. Removes
