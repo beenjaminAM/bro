@@ -51,6 +51,68 @@ def extract_footer_headers(page, header_footer_texts=set()):
                         header_footer_texts.add(line_text.strip())
     return header_footer_texts
 
+def extract_cleaned_text_until_index_page(
+    pdf_path: str,
+    filename: str,
+    logs_df: pl.DataFrame
+) -> tuple[str | None, pl.DataFrame]:
+    """
+    Extracts cleaned text from a PDF up to a specific index page. Removes
+    headers, footers, and link labels. Logs any files that don't have a valid index page.
+
+    Parameters
+    ----------
+    pdf_path : str
+        Full path to the PDF file.
+    filename : str
+        Name of the file (used for logging).
+    logs_df : pl.DataFrame
+        DataFrame containing logs of previously unprocessed files.
+
+    Returns
+    -------
+    tuple[str | None, pl.DataFrame]
+        - Cleaned text extracted from the document (or None if skipped).
+        - Updated logs DataFrame.
+    """
+    doc = fitz.open(pdf_path)
+
+    index_page, limiter = find_limiter_page(doc)
+
+    if index_page is None:
+        if filename not in logs_df['name'].to_list():
+            new_log_row = pl.DataFrame({'name': [filename]}, schema={'name': pl.Utf8})
+            logs_df = pl.concat([logs_df, new_log_row], how="vertical")
+        print(f"No index page found for {filename}")
+        return None, logs_df
+
+    clean_text = ''
+
+    for page_num in range(doc.page_count):
+        if page_num > index_page:
+            break
+
+        page = doc.load_page(page_num)
+        link_labels = extract_link_labes(page, set())
+        header_footers = extract_footer_headers(page, set())
+        raw_text = page.get_text()
+
+        if page_num == index_page and limiter:
+            limiter_index = raw_text.lower().find(limiter.lower())
+            if limiter_index != -1:
+                raw_text = raw_text[:limiter_index]
+
+        for unwanted in link_labels | header_footers:
+            raw_text = raw_text.replace(unwanted, '')
+
+        clean_text += raw_text
+
+    clean_text = re.sub(r'\s+', ' ', clean_text)
+    clean_text = re.sub(r'\n+', '\n', clean_text)
+    clean_text = clean_text.strip()
+
+    return clean_text, logs_df
+
 if __name__ == '__main__':
 
     name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
