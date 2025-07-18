@@ -79,7 +79,18 @@ def extract_cleaned_text_until_index_page(
     """
     doc = fitz.open(pdf_path)
 
-    index_page, limiter = find_limiter_page(doc)
+    if find_limiter or min_pages:
+        if find_limiter and min_pages is None:
+            index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
+        
+        if find_limiter is None and min_pages:
+            index_page, limiter = find_limiter_page(doc, min_pages=min_pages)
+        
+        index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
+
+    else:
+        index_page, limiter = find_limiter_page(doc)
+                
 
     if index_page is None:
         if filename not in logs_df['name'].to_list():
