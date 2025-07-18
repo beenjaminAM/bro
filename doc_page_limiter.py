@@ -76,10 +76,15 @@ if __name__ == '__main__':
     limiter_page_index = handle(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
-    # --- Test 3: find_limiter_page(doc, find_limiter='\nreferences', min_pages = 10)
+    # --- Test 3: find_limiter_page(doc, find_limiter='\nreferences', min_pages = 9)
     find_limiter = "\nreferences"
     min_pages = 9
 
     print(f"\nRunning find_limiter test: '{find_limiter}' | From page: {min_pages}")
     index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter, min_pages=min_pages)
+    print(f"Limiter '{limiter}' found on page index: {index_page}")
+
+    # --- Test 4: find_limiter_page(doc)
+    print(f"\nRunning find_limiter test: '{find_limiter}' | From page: {min_pages}")
+    index_page, limiter = find_limiter_page(doc)
     print(f"Limiter '{limiter}' found on page index: {index_page}")
