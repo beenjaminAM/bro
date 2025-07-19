@@ -145,3 +145,20 @@ if __name__ == '__main__':
     result = extract_footer_headers(doc[0])
     for h_f_content in result:
         print(h_f_content)
+
+    # Create an empty Polars DataFrame for logs
+    logs_df = pl.DataFrame(schema={'name': pl.Utf8})
+    
+    # Call the function
+    result_text, updated_logs = extract_cleaned_text_until_index_page(
+        pdf_path=name,
+        filename=name.replace(".pdf", ""),
+        logs_df=logs_df,
+        min_pages=9
+    )
+
+    # Print results
+    print("\n--- Cleaned Text ---\n")
+    print(result_text)  # Print only the first 1000 characters to avoid overload
+    print("\n--- Logs DataFrame ---\n")
+    print(updated_logs)
