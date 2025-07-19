@@ -88,7 +88,7 @@ def extract_cleaned_text_until_index_page(
         elif find_limiter is None:
             index_page, limiter = find_limiter_page(doc, min_pages=min_pages)
         else:
-            index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
+            index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter, min_pages=min_pages)
 
     else:
         index_page, limiter = find_limiter_page(doc)
