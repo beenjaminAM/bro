@@ -21,7 +21,7 @@ def extract_link_labes(page, label_texts_and_urls = set()):
             link_text = link_text.strip()
             
             if link_text:
-                label_texts_and_urls.add((link_text, uri))
+                label_texts_and_urls.add((link_text))
     
     return label_texts_and_urls
 
