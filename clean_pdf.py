@@ -159,6 +159,6 @@ if __name__ == '__main__':
 
     # Print results
     print("\n--- Cleaned Text ---\n")
-    print(result_text)  # Print only the first 1000 characters to avoid overload
+    print(result_text[1000])  # Print only the first 1000 characters to avoid overload
     print("\n--- Logs DataFrame ---\n")
     print(updated_logs)
