@@ -83,13 +83,12 @@ def extract_cleaned_text_until_index_page(
     doc = fitz.open(pdf_path)
 
     if find_limiter or min_pages:
-        if find_limiter and min_pages is None:
+        if min_pages is None:
             index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
-        
-        if find_limiter is None and min_pages:
+        elif find_limiter is None:
             index_page, limiter = find_limiter_page(doc, min_pages=min_pages)
-        
-        index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
+        else:
+            index_page, limiter = find_limiter_page(doc, find_limiter=find_limiter)
 
     else:
         index_page, limiter = find_limiter_page(doc)
