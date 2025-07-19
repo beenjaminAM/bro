@@ -134,9 +134,12 @@ if __name__ == '__main__':
     
     doc = fitz.open(name)
     
-    result = extract_link_labes(doc[0])
-    for like_label, link in result:
-        print(f"{like_label} , url = {link}")
+    test_set = set()
+    for page_num in range(doc.page_count):
+        extract_link_labes(doc[page_num], test_set)
+    
+    for like_label in test_set:
+        print(f"Link Label: {like_label}")
 
     print("Header and Footer Content")
     result = extract_footer_headers(doc[0])
