@@ -55,7 +55,22 @@ def handleleft(doc, find_limiter, min_pages, direction='backward' ,debug = False
         else:
             return None
         
-def find_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
+def find_start_limiter_page(doc, find_limiter='introduction', max_pages = 3):
+
+    limiter = None
+    result = None
+    if find_limiter == 'introduction':
+        result = handlerigth(doc, find_limiter, max_pages)
+        if result is not None:
+            limiter = 'introduction'
+    else:
+        # Custom cleaning
+        result = handlerigth(doc, find_limiter, max_pages, True)
+        if result:
+            limiter = find_limiter.replace('\n', '').strip()
+    return result, limiter
+
+
 
     limiter = None
     result = None
