@@ -27,7 +27,7 @@ def handlerigth(doc, find_limiter, max_pages, direction='forward' ,debug = False
             return None
 
 
-
+def handleleft(doc, find_limiter, min_pages, direction='backward' ,debug = False):
         matched_page_index = None
 
         # Decide the page range based on the direction
