@@ -71,12 +71,12 @@ def find_start_limiter_page(doc, find_limiter='introduction', max_pages = 3):
     return result, limiter
 
 
-
+def find_final_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
     limiter = None
     result = None
     if find_limiter == '\nreferences':
-        result_ref = handle(doc, find_limiter, min_pages)
-        result_app = handle(doc, 'Appendix A', min_pages)
+        result_ref = handleleft(doc, find_limiter, min_pages)
+        result_app = handleleft(doc, 'Appendix A', min_pages)
         
         if result_ref and result_app:
             result = min(result_ref, result_app)
@@ -88,7 +88,7 @@ def find_start_limiter_page(doc, find_limiter='introduction', max_pages = 3):
     else:
         # Custom cleaning using a word delimiter such as 5. References, 10. Literatur, or Appendix 1
         # The delimiter should appear on or after the page number specified by min_pages (min_pages, min_pages + 1, min_pages + 2)
-        result = handle(doc, find_limiter, min_pages, 'forward', True)
+        result = handleleft(doc, find_limiter, min_pages, 'forward', True)
         if result:
             limiter = find_limiter.replace('\n', '').strip()
     return result, limiter
