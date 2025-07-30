@@ -103,8 +103,8 @@ if __name__ == '__main__':
     direction = 'backward'
     debug = True
 
-    print(f"\nRunning test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
-    limiter_page_index = handle(doc, find_limiter, min_pages, direction=direction, debug=debug)
+    print(f"\n1 Running test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
+    limiter_page_index = handleleft(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
     # --- Test 2: Search for "introduction" from page 1 forward ---
@@ -113,8 +113,8 @@ if __name__ == '__main__':
     direction = 'forward'
     debug = True
 
-    print(f"\nRunning test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
-    limiter_page_index = handle(doc, find_limiter, min_pages, direction=direction, debug=debug)
+    print(f"\n2 Running test: '{find_limiter}' | Direction: {direction} | From page: {max_pages}")
+    limiter_page_index = handlerigth(doc, find_limiter, max_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
     # --- Test 3: find_limiter_page(doc, find_limiter='\nreferences', min_pages = 9)
