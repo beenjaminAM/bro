@@ -32,10 +32,10 @@ def handleleft(doc, find_limiter, min_pages, direction='backward' ,debug = False
 
         # Decide the page range based on the direction
         if direction == 'forward':
-            # Iterate pages from (min_pages - 1) to the last page (inclusive)
+            # Range from (min_pages - 1) to the last page n
             page_range = range(min_pages - 1, doc.page_count)
         else:
-            # Iterate pages in reverse from the last page to (min_pages - 1) (inclusive)
+            # Range in reverse from the last page (n -1) to (min_pages - 1) (inclusive)
             page_range = range(doc.page_count - 1, min_pages - 2, -1)
 
         for page_num in page_range:
