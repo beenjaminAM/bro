@@ -1,6 +1,32 @@
 import fitz
 
-def handle(doc, find_limiter, min_pages, direction='backward' ,debug = False):
+def handlerigth(doc, find_limiter, max_pages, direction='forward' ,debug = False):
+
+        matched_page_index = None
+
+        # Decide the page range based on the direction
+        if direction == 'forward':
+            # Range from first page to the max page (max_pages - 1) (inclusive)
+            page_range = range(0, max_pages)
+        else:
+            # Range in reverse from the max page (max_pages - 1) to the first page 0 (inclusive)
+            page_range = range(max_pages - 1, -1, -1)
+
+        for page_num in page_range:
+            page = doc.load_page(page_num)
+            text = page.get_text()
+            if debug and page_num == max_pages - 1:
+                print(f'Text Context at the page: {max_pages}:', text[:200])
+            if find_limiter.lower() in text.lower():
+                matched_page_index = page_num
+                break
+
+        if matched_page_index is not None and matched_page_index <= max_pages - 1:
+            return matched_page_index# return 0-based index
+        else:
+            return None
+
+
 
         matched_page_index = None
 
