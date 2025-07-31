@@ -103,7 +103,7 @@ if __name__ == '__main__':
     direction = 'backward'
     debug = True
 
-    print(f"\n1 Running test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
+    print(f"\n1 Running handleleft test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
     limiter_page_index = handleleft(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
@@ -113,22 +113,22 @@ if __name__ == '__main__':
     direction = 'backwards'
     debug = True
 
-    print(f"\n2 Running test: '{find_limiter}' | Direction: {direction} | From page: {max_pages}")
+    print(f"\n2 Running handlerigth test: '{find_limiter}' | Direction: {direction} | From page: {max_pages}")
     limiter_page_index = handlerigth(doc, find_limiter, max_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
-    # --- Test 3: find_limiter_page(doc, find_limiter='\nreferences', min_pages = 9)
+    # --- Test 3: find_final_limiter_page(doc, find_limiter='\nreferences', min_pages = 9)
     find_limiter = "\nreferences"
     min_pages = 9
 
-    print(f"\n3 Running find_limiter test: '{find_limiter}' | From page: {min_pages}")
+    print(f"\n3 Running find_final_limiter_page test: '{find_limiter}' | From page: {min_pages}")
     index_page, limiter = find_final_limiter_page(doc, find_limiter=find_limiter, min_pages=min_pages)
     print(f"Limiter '{limiter}' found on page index: {index_page}")
 
     # --- Test 4: find_limiter_page(doc)
     find_limiter = "\nreferences"
     min_pages = 10
-    print(f"\n4 Running find_limiter test: '{find_limiter}' | From default option page: {min_pages}")
+    print(f"\n4 Running find_final_limiter_page test: '{find_limiter}' | From default option page: {min_pages}")
     index_page, limiter = find_final_limiter_page(doc)
     print(f"Limiter '{limiter}' found on page index: {index_page}")
     
@@ -137,6 +137,6 @@ if __name__ == '__main__':
     max_pages = 3
     direction = 'backwards'
     debug = True
-    print(f"\n5 Running find_limiter test: '{find_limiter}' | From page: {max_pages}")
+    print(f"\n5 Running find_start_limiter_page test: '{find_limiter}' | From page: {max_pages}")
     index_page, limiter = find_start_limiter_page(doc)
     print(f"Limiter '{limiter}' found on page index: {index_page}")
