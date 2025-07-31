@@ -137,6 +137,15 @@ if __name__ == '__main__':
     max_pages = 3
     direction = 'backwards'
     debug = True
-    print(f"\n5 Running find_start_limiter_page test: '{find_limiter}' | From page: {max_pages}")
+    print(f"\n5 Running find_start_limiter_page default test: '{find_limiter}' | From page: {max_pages}")
     index_page, limiter = find_start_limiter_page(doc)
+    print(f"Limiter '{limiter}' found on page index: {index_page}")
+
+    # --- Test 6: find_start_limiter_page(doc, find_limiter='Method', max_pages = 2)
+    find_limiter = "Method"
+    max_pages = 2
+    direction = 'backwards'
+    debug = True
+    print(f"\n5 Running find_start_limiter_page test: '{find_limiter}' | From page: {max_pages}")
+    index_page, limiter = find_start_limiter_page(doc, find_limiter=find_limiter)
     print(f"Limiter '{limiter}' found on page index: {index_page}")
