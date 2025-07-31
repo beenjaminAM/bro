@@ -1,6 +1,6 @@
 import fitz
 
-def handlerigth(doc, find_limiter, max_pages, direction='forward' ,debug = False):
+def handlerigth(doc, find_limiter, max_pages, direction='backward' ,debug = False):
 
         matched_page_index = None
 
