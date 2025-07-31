@@ -1,7 +1,7 @@
 import fitz  # PyMuPDF
 import polars as pl
 import re
-from doc_page_limiter import find_limiter_page
+from doc_page_limiter import find_final_limiter_page
 
 def extract_link_labes(page, label_texts_and_urls = set()):
     # Extract all links from the page
