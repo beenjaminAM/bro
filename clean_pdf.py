@@ -114,10 +114,15 @@ def extract_cleaned_text_until_index_page(
         header_footers = extract_footer_headers(page, set())
         raw_text = page.get_text()
 
-        if page_num == index_page and limiter:
-            limiter_index = raw_text.lower().find(limiter.lower())
-            if limiter_index != -1:
-                raw_text = raw_text[:limiter_index]
+        if page_num == start_index_page:
+            start_limiter_index = raw_text.lower().find(start_limiter.lower())
+            if start_limiter_index != -1:
+                raw_text = raw_text[start_limiter_index:]
+
+        if page_num == final_index_page:
+            final_limiter_index = raw_text.lower().find(final_limiter.lower())
+            if final_limiter_index != -1:
+                raw_text = raw_text[:final_limiter_index]
 
         for unwanted in link_labels | header_footers:
             raw_text = raw_text.replace(unwanted, '')
