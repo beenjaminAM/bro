@@ -156,7 +156,7 @@ if __name__ == '__main__':
         pdf_path=name,
         filename=name.replace(".pdf", ""),
         logs_df=logs_df,
-        min_pages=9
+        final_min_pages=9
     )
 
     # Print results
