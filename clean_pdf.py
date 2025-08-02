@@ -84,6 +84,16 @@ def extract_cleaned_text_until_index_page(
     """
     doc = fitz.open(pdf_path)
 
+    if find_start_limiter or start_max_pages:
+        if start_max_pages is None:
+            start_index_page, start_limiter = find_start_limiter_page(doc, find_limiter=find_start_limiter)
+        elif find_start_limiter is None:
+            start_index_page, start_limiter = find_start_limiter_page(doc, max_pages=start_max_pages)
+        else:
+            start_index_page, start_limiter = find_start_limiter_page(doc, find_limiter=find_start_limiter, max_pages=start_max_pages)
+
+    else:
+        start_index_page, start_limiter = find_start_limiter_page(doc)
 
     if find_final_limiter or final_min_pages:
         if final_min_pages is None:
@@ -91,13 +101,13 @@ def extract_cleaned_text_until_index_page(
         elif find_final_limiter is None:
             final_index_page, final_limiter = find_final_limiter_page(doc, min_pages=final_min_pages)
         else:
-            index_page, limiter = find_final_limiter_page(doc, find_limiter=find_limiter, min_pages=min_pages)
+            final_index_page, final_limiter = find_final_limiter_page(doc, find_limiter=find_final_limiter, min_pages=final_min_pages)
 
     else:
-        index_page, limiter = find_final_limiter_page(doc)
+        final_index_page, final_limiter = find_final_limiter_page(doc)
                 
 
-    if index_page is None:
+    if final_index_page is None or start_index_page is None:
         if filename not in logs_df['name'].to_list():
             description = f"1. {start_limiter} {'not' if start_index_page is None else 'found'} in 0, {start_max_pages} and 2. {final_limiter} {'not' if final_index_page is None else 'found'} in 0, {final_min_pages}"
             new_log_row = pl.DataFrame({'name': [f"{filename} description:{description}"]}, schema={'name': pl.Utf8})
