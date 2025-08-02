@@ -1,7 +1,7 @@
 import fitz  # PyMuPDF
 import polars as pl
 import re
-from doc_page_limiter import find_final_limiter_page
+from doc_page_limiter import find_final_limiter_page, find_start_limiter_page
 
 def extract_link_labes(page, label_texts_and_urls = set()):
     # Extract all links from the page
@@ -58,8 +58,10 @@ def extract_cleaned_text_until_index_page(
     pdf_path: str,
     filename: str,
     logs_df: pl.DataFrame,
-    find_limiter: str | None = None,
-    min_pages: int | None = None,
+    find_start_limiter: str | None = None,
+    start_max_pages: int | None = None,
+    find_final_limiter: str | None = None,
+    final_min_pages: int | None = None,
 ) -> tuple[str | None, pl.DataFrame]:
     """
     Extracts cleaned text from a PDF up to a specific index page. Removes
