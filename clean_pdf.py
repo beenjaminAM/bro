@@ -105,8 +105,8 @@ def extract_cleaned_text_until_index_page(
 
     clean_text = ''
 
-    for page_num in range(doc.page_count):
-        if page_num > index_page:
+    for page_num in range(start_index_page, doc.page_count):
+        if page_num > final_index_page:
             break
 
         page = doc.load_page(page_num)
