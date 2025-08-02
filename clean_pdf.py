@@ -98,7 +98,8 @@ def extract_cleaned_text_until_index_page(
 
     if index_page is None:
         if filename not in logs_df['name'].to_list():
-            new_log_row = pl.DataFrame({'name': [filename]}, schema={'name': pl.Utf8})
+            description = f"1. {start_limiter} {'not' if start_index_page is None else 'found'} in 0, {start_max_pages} and 2. {final_limiter} {'not' if final_index_page is None else 'found'} in 0, {final_min_pages}"
+            new_log_row = pl.DataFrame({'name': [f"{filename} description:{description}"]}, schema={'name': pl.Utf8})
             logs_df = pl.concat([logs_df, new_log_row], how="vertical")
         print(f"No index page found for {filename}")
         return None, logs_df
