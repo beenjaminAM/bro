@@ -27,8 +27,8 @@ def extract_link_labes(page, label_texts_and_urls = set()):
 
 def extract_footer_headers(page, header_footer_texts=set()):
     # Define header and footer thresholds based on page height 
-    header_threshold = 85  # Text blocks above this Y-position are considered part of the header
-    footer_threshold = 45   # Text blocks below this Y-position are considered part of the footer
+    header_threshold = 67  # Text blocks above this Y-position are considered part of the header
+    footer_threshold = 40   # Text blocks below this Y-position are considered part of the footer
 
     # Get all text blocks from the page to identify header and footer content
     blocks = page.get_text("dict")["blocks"]
@@ -109,7 +109,7 @@ def extract_cleaned_text_until_index_page(
 
     if final_index_page is None or start_index_page is None:
         if filename not in logs_df['name'].to_list():
-            description = f"1. {start_limiter} {'not' if start_index_page is None else 'found'} in 0, {start_max_pages} and 2. {final_limiter} {'not' if final_index_page is None else 'found'} in 0, {final_min_pages}"
+            description = f"1. {start_limiter} {'not' if start_index_page is None else 'found'} in [0-{start_max_pages}] and 2. {final_limiter} {'not' if final_index_page is None else 'found'} in [{final_min_pages}-{doc.page_count}]"
             new_log_row = pl.DataFrame({'name': [f"{filename} description:{description}"]}, schema={'name': pl.Utf8})
             logs_df = pl.concat([logs_df, new_log_row], how="vertical")
         print(f"No index page found for {filename}")
@@ -173,7 +173,10 @@ if __name__ == '__main__':
         pdf_path=name,
         filename=name.replace(".pdf", ""),
         logs_df=logs_df,
-        final_min_pages=9
+        find_start_limiter = "Research questions",
+        start_max_pages=2,
+        find_final_limiter = "Acknowledgements",
+        final_min_pages=8
     )
 
     # Print results
@@ -181,3 +184,6 @@ if __name__ == '__main__':
     print(result_text[:1000])  # Print only the first 1000 characters to avoid overload
     print("\n--- Logs DataFrame ---\n")
     print(updated_logs)
+    for data in updated_logs["name"]:
+        print(data)
+    print(updated_logs["name"])
