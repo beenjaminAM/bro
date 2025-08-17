@@ -23,3 +23,7 @@ def create_logging_errors(name, path):
         save_logging_errors(logs_df, log_path)
     
     return logs_df
+      
+if __name__ == "__main__":
+    # Test the function
+    loggin_df = create_logging_errors("logging_errors", os.path.join(os.getcwd(), "logs"))
