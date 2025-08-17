@@ -1,42 +1,41 @@
 import fitz
 
-def handlerigth(doc, find_limiter, max_pages, direction='backward' ,debug = False):
-
+def find_word_from_start(doc, find_limiter, search_upto_page, direction='backward' ,debug = False):
         matched_page_index = None
 
         # Decide the page range based on the direction
         if direction == 'forward':
             # Range from first page to the max page (max_pages - 1) (inclusive)
-            page_range = range(0, max_pages)
+            page_range = range(0, search_upto_page)
         else:
             # Range in reverse from the max page (max_pages - 1) to the first page 0 (inclusive)
-            page_range = range(max_pages - 1, -1, -1)
+            page_range = range(search_upto_page - 1, -1, -1)
 
         for page_num in page_range:
             page = doc.load_page(page_num)
             text = page.get_text()
-            if debug and page_num == max_pages - 1:
-                print(f'Text Context at the page: {max_pages}:', text[:200])
+            if debug and page_num == search_upto_page - 1:
+                print(f'Text Context at the page: {search_upto_page}:', text[:200])
             if find_limiter.lower() in text.lower():
                 matched_page_index = page_num
                 break
 
-        if matched_page_index is not None and matched_page_index <= max_pages - 1:
+        if matched_page_index is not None and matched_page_index <= search_upto_page - 1:
             return matched_page_index# return 0-based index
         else:
             return None
 
 
-def handleleft(doc, find_limiter, min_pages, direction='backward' ,debug = False):
+def find_word_from_end(doc, find_limiter, search_from_page, direction='backward' ,debug = False):
         matched_page_index = None
 
         # Decide the page range based on the direction
         if direction == 'forward':
             # Range from (min_pages - 1) to the last page n
-            page_range = range(min_pages - 1, doc.page_count)
+            page_range = range(search_from_page - 1, doc.page_count)
         else:
             # Range in reverse from the last page (n -1) to (min_pages - 1) (inclusive)
-            page_range = range(doc.page_count - 1, min_pages - 2, -1)
+            page_range = range(doc.page_count - 1, search_from_page - 2, -1)
 
         for page_num in page_range:
             page = doc.load_page(page_num)
@@ -44,13 +43,13 @@ def handleleft(doc, find_limiter, min_pages, direction='backward' ,debug = False
             # Debug purpss
             # print("val ", doc.page_count)
             # print(text)
-            if debug and page_num == min_pages - 1:
-                print(f'Text Context at the page: {min_pages}:', text[:200])
+            if debug and page_num == search_from_page - 1:
+                print(f'Text Context at the page: {search_from_page}:', text[:200])
             if find_limiter.lower() in text.lower():
                 matched_page_index = page_num
                 break
 
-        if matched_page_index is not None and matched_page_index >= min_pages - 1:
+        if matched_page_index is not None and matched_page_index >= search_from_page - 1:
             return matched_page_index# return 0-based index
         else:
             return None
@@ -60,12 +59,12 @@ def find_start_limiter_page(doc, find_limiter='introduction', max_pages = 3):
     limiter = find_limiter
     result = None
     if find_limiter == 'introduction':
-        result = handlerigth(doc, find_limiter, max_pages)
+        result = find_word_from_start(doc, find_limiter, max_pages)
         if result is not None:
             limiter = 'introduction'
     else:
         # Custom cleaning
-        result = handlerigth(doc, find_limiter, max_pages, True)
+        result = find_word_from_start(doc, find_limiter, max_pages, 'backward', True)
         if result:
             limiter = find_limiter.replace('\n', '').strip()
     return result, limiter
@@ -75,8 +74,8 @@ def find_final_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
     limiter = find_limiter
     result = None
     if find_limiter == '\nreferences':
-        result_ref = handleleft(doc, find_limiter, min_pages)
-        result_app = handleleft(doc, 'Appendix A', min_pages)
+        result_ref = find_word_from_end(doc, find_limiter, min_pages)
+        result_app = find_word_from_end(doc, 'Appendix A', min_pages)
         
         if result_ref and result_app:
             result = min(result_ref, result_app)
@@ -88,7 +87,7 @@ def find_final_limiter_page(doc, find_limiter='\nreferences', min_pages = 10):
     else:
         # Custom cleaning using a word delimiter such as 5. References, 10. Literatur, or Appendix 1
         # The delimiter should appear on or after the page number specified by min_pages (min_pages, min_pages + 1, min_pages + 2)
-        result = handleleft(doc, find_limiter, min_pages, 'forward', True)
+        result = find_word_from_end(doc, find_limiter, min_pages, 'backwards', True)
         if result:
             limiter = find_limiter.replace('\n', '').strip()
     return result, limiter
@@ -104,7 +103,7 @@ if __name__ == '__main__':
     debug = True
 
     print(f"\n1 Running handleleft test: '{find_limiter}' | Direction: {direction} | From page: {min_pages}")
-    limiter_page_index = handleleft(doc, find_limiter, min_pages, direction=direction, debug=debug)
+    limiter_page_index = find_word_from_end(doc, find_limiter, min_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
     # --- Test 2: Search for "introduction" from page 1 backward ---
@@ -113,8 +112,8 @@ if __name__ == '__main__':
     direction = 'backwards'
     debug = True
 
-    print(f"\n2 Running handlerigth test: '{find_limiter}' | Direction: {direction} | From page: {max_pages}")
-    limiter_page_index = handlerigth(doc, find_limiter, max_pages, direction=direction, debug=debug)
+    print(f"\n2 Running handleright test: '{find_limiter}' | Direction: {direction} | From page: {max_pages}")
+    limiter_page_index = find_word_from_start(doc, find_limiter, max_pages, direction=direction, debug=debug)
     print(f"Page limiter for '{find_limiter}': {limiter_page_index} (0-based index)")
 
     # --- Test 3: find_final_limiter_page(doc, find_limiter='\nreferences', min_pages = 9)
