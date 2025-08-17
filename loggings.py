@@ -8,3 +8,18 @@ def save_logging_errors(logs_df, path):
     except Exception as e:
         print(f"Error saving LOG CSV: {e}")
 
+def create_logging_errors(name, path):
+    log_path = os.path.join(path, name)
+    if os.path.exists(log_path):
+        logs_df = pl.read_csv(log_path)
+        # Ensure consistent schema
+        logs_df = logs_df.with_columns([
+            pl.col("name").cast(pl.Utf8)
+        ])
+    else:
+        # Initialize empty DataFrame with proper schema
+        logs_df = pl.DataFrame(schema={'name': pl.Utf8})
+        os.mkdir(path)
+        save_logging_errors(logs_df, log_path)
+    
+    return logs_df
