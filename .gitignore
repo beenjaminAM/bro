@@ -1,0 +1,11 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore Python bytecode
+__pycache__/
+
+# Ignore pytest cache
+.pytest_cache/
+
+# Ignore environment variable files
+.env
