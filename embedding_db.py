@@ -19,6 +19,15 @@ def create_vector_collection(vector_db, collection_name):
 
     return collection
 
+def insert_in_collection(collection, texts_list, metadatas, ids, vectors):
+    collection.add(
+        documents=texts_list,
+        metadatas=metadatas,
+        ids=ids,
+        embeddings=vectors
+    )
+
+
 if __name__ == "__main__":
     # Test the function
     vector_db = create_vector_db(db_name="vector_db", db_path=os.getcwd())
