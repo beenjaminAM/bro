@@ -31,3 +31,4 @@ def insert_in_collection(collection, texts_list, metadatas, ids, vectors):
 if __name__ == "__main__":
     # Test the function
     vector_db = create_vector_db(db_name="vector_db", db_path=os.getcwd())
+    test_collection = create_vector_collection(vector_db, "test_collection")
