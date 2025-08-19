@@ -168,9 +168,11 @@ if __name__ == '__main__':
     # Create an empty Polars DataFrame for logs
     logs_df = pl.DataFrame(schema={'name': pl.Utf8})
     
+    pdf_test_path = os.path.join(os.getcwd(), name)
+
     # Call the function
     result_text, updated_logs = extract_cleaned_text_until_index_page(
-        pdf_path=name,
+        pdf_path=pdf_test_path,
         filename=name.replace(".pdf", ""),
         logs_df=logs_df,
         find_start_limiter = "Research questions",
