@@ -19,7 +19,8 @@ def create_logging_errors(name, path):
     else:
         # Initialize empty DataFrame with proper schema
         logs_df = pl.DataFrame(schema={'name': pl.Utf8})
-        os.mkdir(path)
+        if not os.path.exists(path):
+            os.mkdir(path)
         save_logging_errors(logs_df, log_path)
     
     return logs_df

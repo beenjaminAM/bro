@@ -1,6 +1,6 @@
 import chromadb.utils.embedding_functions as embedding_functions
 
-openai_key = "secret"
+openai_key = "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"
 
 def get_embedding(texts):
     openai_ef = embedding_functions.OpenAIEmbeddingFunction(
