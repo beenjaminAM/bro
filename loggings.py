@@ -54,3 +54,4 @@ def create_logging_pdf_list(name, path):
 if __name__ == "__main__":
     # Test the function
     loggin_df = create_logging_errors("logging_errors", os.path.join(os.getcwd(), "logs"))
+    loggin_df = create_logging_pdf_list("logging_pdf_list", os.path.join(os.getcwd(), "logs"))
