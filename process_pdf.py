@@ -42,4 +42,18 @@ def process_pdf_to_embedding(pdf_path, collection_name ,logs_errors_df, logs_pdf
 
 if __name__ == '__main__':
 
-    pass
+    name = 'Systematic literature reviews in software engineering – A systematic literature review Kitchenham B. (2009).pdf'
+    
+    pdf_path = os.path.join(os.getcwd(), name)
+    vector_db = create_vector_db(db_name="vector_db", db_path=os.getcwd())
+    test_collection = create_vector_collection(vector_db, "test_collection")
+
+    loggin_df = create_logging_errors("logging_errors", os.path.join(os.getcwd(), "logs"))
+    loggin_pdf_df = create_logging_pdf_list("logging_pdf_list", os.path.join(os.getcwd(), "logs"))
+
+    pdf_df = loggin_pdf_df
+    
+    print('boy 1', len(pdf_df))
+    print(len(pdf_df))
+    print('boy 2 ', len(pdf_df))
+    process_pdf_to_embedding(pdf_path, test_collection, loggin_df, loggin_pdf_df)
